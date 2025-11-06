@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Set;
 
 class Graph<T> {
     /* Generic graph structure */
@@ -9,19 +10,25 @@ class Graph<T> {
         this.graphMap = new HashMap<>();
     }
 
+    public void addVertex(T vertex) {
+        this.graphMap.putIfAbsent(vertex, new LinkedList<T>());
+    }
+
     public void addEdge(T source, T destination) {
-        this.graphMap.putIfAbsent(source, new LinkedList<T>());
-        this.graphMap.putIfAbsent(destination, new LinkedList<T>());
-        this.graphMap.get(source).append(destination);
-        this.graphMap.get(destination).append(source);
+        addVertex(source);
+        addVertex(destination);
+        if (!hasEdge(source, destination)) {
+            this.graphMap.get(source).add(destination);
+            this.graphMap.get(destination).add(source);
+        }
     }
 
     public LinkedList<T> getAdjacentList(T vertex) {
         return this.graphMap.get(vertex);
     }
 
-    public T getVertices() {
-        return HashMap.keySet();
+    public Set<T> getVertices() {
+        return graphMap.keySet();
     }
     
     public boolean hasEdge(T source, T destination){
