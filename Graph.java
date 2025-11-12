@@ -1,20 +1,19 @@
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Set;
 
 class Graph<T> {
     /* Generic graph structure */
-    private HashMap <T, LinkedList<T>> graphMap;
+    private HashMap <Shape, LinkedList<Shape>> graphMap;
     
     public Graph(){
         this.graphMap = new HashMap<>();
     }
 
-    public void addVertex(T vertex) {
-        this.graphMap.putIfAbsent(vertex, new LinkedList<T>());
+    public void addVertex(Shape vertex) {
+        this.graphMap.putIfAbsent(vertex, new LinkedList<Shape>());
     }
 
-    public void addEdge(T source, T destination) {
+    public void addEdge(Shape source, Shape destination) {
         addVertex(source);
         addVertex(destination);
         if (!hasEdge(source, destination)) {
@@ -23,15 +22,15 @@ class Graph<T> {
         }
     }
 
-    public LinkedList<T> getAdjacentList(T vertex) {
+    public LinkedList<Shape> getAdjacentList(Shape vertex) {
         return this.graphMap.get(vertex);
     }
 
-    public Set<T> getVertices() {
-        return graphMap.keySet();
+    public Shape[] getVertices() {
+        return (Shape[]) this.graphMap.keySet().toArray(new Shape[0]);
     }
     
-    public boolean hasEdge(T source, T destination){
+    public boolean hasEdge(Shape source, Shape destination){
         return this.graphMap.get(source).contains(destination) && this.graphMap.get(destination).contains(source);
     }
 }
