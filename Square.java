@@ -7,6 +7,9 @@ import java.awt.RenderingHints;
 public class Square extends Shape {
     public Square(int length, int i, int j) {
         super(length, Type.SQUARE, i, j);
+        isConnected = new boolean[4];
+        for (int ii = 0; ii < 4; ii++)
+            neighbors.add(null);
     }
 
     @Override
@@ -16,7 +19,7 @@ public class Square extends Shape {
         try {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(this.color);
+            g2.setColor(this.explored.getColor());
 
             int x = (this.j + 1) * this.length;
             int y = (this.i + 1) * this.length;
@@ -24,7 +27,6 @@ public class Square extends Shape {
             g2.drawRect(x, y, this.length, this.length);
             g2.setStroke(new BasicStroke(2));
 
-            g2.setColor(this.color);
             for (int side = 0; side < 4; side++) {
                 if (!isConnected[side]) continue;
                 switch (side) {

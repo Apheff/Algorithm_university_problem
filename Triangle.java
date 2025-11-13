@@ -8,6 +8,9 @@ import java.awt.RenderingHints;
 public class Triangle extends Shape {
     public Triangle(int length, int i, int j) {
         super(length, Type.TRIANGLE, i, j);
+        isConnected = new boolean[3];
+        for (int ii = 0; ii < 3; ii++)
+            neighbors.add(null);
     }
 
     @Override
@@ -17,12 +20,12 @@ public class Triangle extends Shape {
         try {
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                     RenderingHints.VALUE_ANTIALIAS_ON);
-            g2.setColor(this.color);
+            g2.setColor(this.explored.getColor());
 
             double height = Math.sqrt(3) * this.length;
             int orientation = (this.i + this.j) % 2;
             int cy = (this.i + 1);
-            double cx = (this.j + 2);
+            int cx = (this.j + 2);
 
             int[] xs = { (int) ((cx - orientation) * this.length), (int) ((cx - 1 + orientation) * this.length), (int) ((cx + 1) * this.length)};
             int[] ys = { (int) ((cy + 1) * height), (int) (cy * height), (int) ((cy + orientation) * height) };
@@ -32,7 +35,6 @@ public class Triangle extends Shape {
             g2.drawPolygon(p);
             g2.setStroke(new BasicStroke(2));
             
-            g2.setColor(this.color);
             for (int edge = 0; edge < 3; edge++) {
                 if (!isConnected[edge]) continue;
                 int next = (edge + 1) % 3;

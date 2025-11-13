@@ -4,7 +4,7 @@ public class LabyrinthGenerator {
     private Shape[][] labyrinth;
     private BufferedImage buffer;
 
-    public LabyrinthGenerator(int dimensionX, int dimensionY, int shapeDimension, Shape.Type shapeType, BufferedImage buffer) {
+    public LabyrinthGenerator(int dimensionX, int dimensionY, int shapeDimension, Type shapeType, BufferedImage buffer) {
         this.labyrinth = new Shape[dimensionY][dimensionX];
         this.buffer = buffer;
 

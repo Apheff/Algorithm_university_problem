@@ -2,62 +2,54 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.awt.Graphics;
 
-abstract class Shape {
-    enum Type {
-        HEXAGON(6),
-        SQUARE(4),
-        TRIANGLE(3);
+enum Type { HEXAGON, SQUARE, TRIANGLE }
+enum Explored { 
+    NONE(Color.BLACK), 
+    PARTIALLY(Color.ORANGE), 
+    FULL(Color.GREEN);
 
-        private final int value;
+    private Color color;
 
-        Type(int value) {
-            this.value = value;
-        }
-
-        public int getValue() {
-            return value;
-        }
+    Explored(Color color) {
+        this.color = color;
     }
 
+    public Color getColor() {
+        return this.color;
+    }
+}
+
+abstract class Shape {
     protected int length;
     protected Type type;
-    protected int i;
-    protected int j;
-    private boolean visited = false;
+    protected int i, j;
+
+    protected Explored explored = Explored.NONE;
+
+    protected LinkedList<Shape> neighbors = new LinkedList<>();
     protected boolean[] isConnected;
-    private boolean hasConnection = false;
-    protected LinkedList<Shape> neighbors;
-    protected Color color = Color.GRAY;
-    // unvisited -> gray
-    // visited -> orange
-    // fully explored -> green
 
     protected Shape(int length, Type type, int i, int j) {
         this.length = length;
         this.type = type;
         this.i = i;
         this.j = j;
-        //this.randomInt = random.nextInt(type.getValue());
-        isConnected = new boolean[type.getValue()];
-        neighbors = new LinkedList<>();
-        for (int ii = 0; ii < type.getValue(); ii++)
-            neighbors.add(null);
     }
 
     public Type getType() {
         return type;
     }
 
-    public boolean isVisited() {
-        return visited;
-    }
-    public void setVisited(boolean visited) {
-        this.visited = visited;
-        this.color = visited ? Color.WHITE : Color.GRAY;
+    public boolean isExplored() {
+        return this.explored == Explored.FULL;
     }
 
-    public Color getColor() {
-        return color;
+    public boolean isPartiallyExplored() {
+        return this.explored == Explored.PARTIALLY;
+    }
+
+    public void setExplored(Explored explored) {
+        this.explored = explored;
     }
 
     public void addNeighbor(Shape neighbor, int index) {
@@ -76,12 +68,6 @@ abstract class Shape {
         isConnected[position] = true;
         int opposite = neighbor.neighbors.indexOf(this);
         neighbor.isConnected[opposite] = true;
-        hasConnection = true;
-        neighbor.hasConnection = true;
-    }
-
-    public boolean hasConnection() {
-        return hasConnection;
     }
 
     // ogni sottoclasse implementa il proprio disegno

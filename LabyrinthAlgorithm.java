@@ -18,17 +18,19 @@ public class LabyrinthAlgorithm {
     }
 
     public void update() {
-        int randomIndex = random.nextInt(queue.size());
+        int randomIndex = random.nextInt(Math.min(queue.size(), 24));
         //int randomIndex = 0;
         Shape currentShape = queue.remove(randomIndex);
-        currentShape.setVisited(true);
+        currentShape.setExplored(Explored.FULL);
         
         for (Shape neighbor : currentShape.getNeighbors()) {
             if (neighbor == null) continue;
-            if (neighbor.isVisited()) {
+
+            if (neighbor.isExplored()) {
                 connectionQueue.add(neighbor);
-            } else if (!queue.contains(neighbor)) {
-                queue.add(neighbor);
+            } else if (!neighbor.isPartiallyExplored()) {
+                queue.addFirst(neighbor);
+                neighbor.setExplored(Explored.PARTIALLY);
             }
         }
         Shape connectedNeighbor = null;
@@ -40,10 +42,16 @@ public class LabyrinthAlgorithm {
             connectedNeighbor = connectionQueue.remove();
             currentShape.connectNeighbor(connectedNeighbor);
         }
+
         currentShape.draw(buffer.getGraphics());
+        for (Shape neighbor : currentShape.getNeighbors())
+            if (neighbor != null)
+                neighbor.draw(buffer.getGraphics());
+                /*
         if (connectedNeighbor != null) {
             connectedNeighbor.draw(buffer.getGraphics());
-        }
+            }
+        */
     }
 
     public boolean running() {
