@@ -6,13 +6,20 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 
 public class Hexagon extends Shape {
+
+    // class for creating the Hexagon shape, this class extends the abstract class Shape
     public Hexagon(int length, int i, int j) {
         super(length, Type.HEXAGON, i, j);
-        isConnected = new boolean[6];
-        for (int ii = 0; ii < 6; ii++)
+        isConnected = new boolean[this.type.getValue()];
+        for (int ii = 0; ii < this.type.getValue(); ii++)
             neighbors.add(null);
     }
 
+    /*
+        drawing method:
+        checks the routes/edges connecting the different squares and
+        paint them with the corresponding visted color 
+    */ 
     @Override
     public void draw(Graphics g) {
         if (g == null) return;
@@ -22,7 +29,7 @@ public class Hexagon extends Shape {
                     RenderingHints.VALUE_ANTIALIAS_ON);
             g2.setColor(this.explored.getColor());
 
-            int radius = this.length;
+            int side = this.length;
             double xOffset = (Math.sqrt(3) / 2.0) * (this.i % 2);
             double cx = (this.j + 1) * Math.sqrt(3) + xOffset;
             double cy = (this.i + 1) * 3 / 2.0;
@@ -31,8 +38,8 @@ public class Hexagon extends Shape {
             int[] ys = new int[6];
             for (int ii = 0; ii < 6; ii++) {
                 double angle = Math.toRadians(60 * ii + 150);
-                xs[ii] = (int) ((cx + Math.cos(angle)) * radius);
-                ys[ii] = (int) ((cy + Math.sin(angle)) * radius);
+                xs[ii] = (int) ((cx + Math.cos(angle)) * side);
+                ys[ii] = (int) ((cy + Math.sin(angle)) * side);
             }
 
             Polygon hex = new java.awt.Polygon(xs, ys, 6);

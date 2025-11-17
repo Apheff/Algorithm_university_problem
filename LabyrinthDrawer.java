@@ -5,8 +5,10 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 public class LabyrinthDrawer extends JPanel {
+
     private BufferedImage buffer;
 
+    // creates the frame and the panel where to paint the buffered image
     public LabyrinthDrawer(BufferedImage buffer) {
         this.buffer = buffer;
         
@@ -17,6 +19,7 @@ public class LabyrinthDrawer extends JPanel {
         frame.add(this);
     }
 
+    // draws the Bufferedimage on the panel
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

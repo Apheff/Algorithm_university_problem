@@ -4,17 +4,19 @@ public class LabyrinthGenerator {
     private Shape[][] labyrinth;
     private BufferedImage buffer;
 
+    // This class is in charge of the unique labyrinth's generation depending on the shape in use
     public LabyrinthGenerator(int dimensionX, int dimensionY, int shapeDimension, Type shapeType, BufferedImage buffer) {
         this.labyrinth = new Shape[dimensionY][dimensionX];
         this.buffer = buffer;
-
+        
         switch (shapeType) {
             case SQUARE -> generateSquareLabyrinth(shapeDimension);
             case HEXAGON -> generateHexagonalLabyrinth(shapeDimension);
             case TRIANGLE -> generateTriangularLabyrinth(shapeDimension);
         }
     }
-
+    
+    // ====================== Shape based Methods ====================== //
     public void generateSquareLabyrinth(int shapeDimension) {
         for (int i = 0; i < labyrinth.length; i++) {
             for (int j = 0; j < labyrinth[i].length; j++) {
@@ -95,6 +97,7 @@ public class LabyrinthGenerator {
         }
     }
 
+    // generic method to retrieve the labyrinth
     public Shape[][] getLabyrinth() {
         return this.labyrinth;
     }

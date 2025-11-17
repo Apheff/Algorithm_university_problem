@@ -11,15 +11,15 @@ public class AlgorithmRunner implements Runnable {
     public static void main(String[] args) {
         /*
         AlgorithmRunner runner[] = new AlgorithmRunner[10];
-        for (int i = 11; i <= 13; i++)
-        runner[i - 11] = new AlgorithmRunner(i * 200, i * 200, 10, Type.SQUARE);
+        for (int i = 1; i <= 10; i++)
+        runner[i - 1] = new AlgorithmRunner(i * 100, i * 100, 10, Type.SQUARE);
         
         runner[0].startThread();
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= 9; i++) {
             while (runner[i - 1].thread.isAlive()) {}
             runner[i].startThread();
-            }
-            */
+        }
+        */
             
         SwingUtilities.invokeLater(() -> {
             AlgorithmRunner runner = new AlgorithmRunner(50, 30, 20, Type.HEXAGON);
@@ -53,7 +53,7 @@ public class AlgorithmRunner implements Runnable {
             labyrinthAlgorithm.update();
             labyrinthDrawer.repaint();
             try {
-                Thread.sleep(5);
+                Thread.sleep(3);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

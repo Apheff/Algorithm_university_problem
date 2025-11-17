@@ -2,11 +2,31 @@ import java.awt.Color;
 import java.util.LinkedList;
 import java.awt.Graphics;
 
-enum Type { HEXAGON, SQUARE, TRIANGLE }
+
+
+// ====================== Enum Classes ====================== //
+// different shape types (must add other shapes here if wanted and use a custom labyrinthGerenator method)
+enum Type { 
+    HEXAGON(6), 
+    SQUARE(4), 
+    TRIANGLE(3);
+
+    private int value;
+
+    Type(int value) {
+        this.value = value;
+    }
+
+    public int getValue() {
+        return this.value;
+    }
+}
+
+// sets the color of different shapes depending on the Visited state
 enum Explored { 
-    NONE(Color.BLACK), 
-    PARTIALLY(Color.ORANGE), 
-    FULL(Color.GREEN);
+    NEVER(Color.decode("#1A2A4F")),
+    PARTIALLY(Color.decode("#F7A5A5")),
+    FULLLY(Color.decode("#FFF2EF"));
 
     private Color color;
 
@@ -20,11 +40,12 @@ enum Explored {
 }
 
 abstract class Shape {
+    
     protected int length;
     protected Type type;
     protected int i, j;
 
-    protected Explored explored = Explored.NONE;
+    protected Explored explored = Explored.NEVER;
 
     protected LinkedList<Shape> neighbors = new LinkedList<>();
     protected boolean[] isConnected;
@@ -35,19 +56,18 @@ abstract class Shape {
         this.i = i;
         this.j = j;
     }
-
-    public Type getType() {
-        return type;
+    
+    // ====================== Boolean Methods ====================== //
+    // Checks if the node is not explored, partially explored or fully explored
+    public boolean isFullyExplored() {
+        return this.explored == Explored.FULLLY;
     }
-
-    public boolean isExplored() {
-        return this.explored == Explored.FULL;
+    
+    public boolean isNeverExplored() {
+        return this.explored == Explored.NEVER;
     }
-
-    public boolean isPartiallyExplored() {
-        return this.explored == Explored.PARTIALLY;
-    }
-
+    
+    // ====================== Void Methods ====================== //
     public void setExplored(Explored explored) {
         this.explored = explored;
     }
@@ -57,11 +77,7 @@ abstract class Shape {
             neighbors.set(index, neighbor);
         }
     }
-
-    public LinkedList<Shape> getNeighbors() {
-        return neighbors;
-    }
-
+    
     public void connectNeighbor(Shape neighbor) {
         if (neighbor == null) return;
         int position = neighbors.indexOf(neighbor);
@@ -70,6 +86,16 @@ abstract class Shape {
         neighbor.isConnected[opposite] = true;
     }
 
-    // ogni sottoclasse implementa il proprio disegno
+    // ====================== Get Methods ====================== //
+    public Type getType() {
+        // not used for this project
+        return type;
+    }
+
+    public LinkedList<Shape> getNeighbors() {
+        return neighbors;
+    }
+
+    // Every subclass must implement this method
     public abstract void draw(Graphics g);
 }
