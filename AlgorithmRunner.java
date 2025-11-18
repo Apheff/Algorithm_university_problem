@@ -6,7 +6,11 @@ public class AlgorithmRunner implements Runnable {
     private LabyrinthAlgorithm labyrinthAlgorithm;
     private LabyrinthDrawer labyrinthDrawer;
     private Thread thread;
-    private int dimension = 10000;
+    private int dimension;
+    static int width = 50;
+    static int height = 30;
+    static int shapeSize = 20;
+    static Type shapeType = Type.SQUARE; // 4: square, 6: hexagon, 3: triangle, (add to enum new Type accordingly)
 
     public static void main(String[] args) {
         /*
@@ -18,11 +22,30 @@ public class AlgorithmRunner implements Runnable {
         for (int i = 1; i <= 9; i++) {
             while (runner[i - 1].thread.isAlive()) {}
             runner[i].startThread();
-        }
+            }
         */
-            
+        
+        if (args.length > 0) {
+            try {
+                width = Integer.parseInt(args[0]);
+                height = Integer.parseInt(args[1]);
+                shapeSize = Integer.parseInt(args[2]);
+                shapeType = switch (args[3].toLowerCase()) {
+                    case "square" -> Type.SQUARE;
+                    case "hexagon" -> Type.HEXAGON;
+                    case "triangle" -> Type.TRIANGLE;
+                    default -> Type.SQUARE;
+                };
+            } catch (NumberFormatException e) {
+                System.out.println("Using default width value: " + width);
+                System.out.println("Using default height value: " + height);
+                System.out.println("Using default shape size value: " + shapeSize);
+                System.out.println("Using default shape type value: square");
+            }
+        } 
+    
         SwingUtilities.invokeLater(() -> {
-            AlgorithmRunner runner = new AlgorithmRunner(50, 30, 20, Type.HEXAGON);
+            AlgorithmRunner runner = new AlgorithmRunner(width, height, shapeSize, shapeType);
             runner.startThread();
         });
     }
