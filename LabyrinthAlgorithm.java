@@ -28,12 +28,12 @@ public class LabyrinthAlgorithm {
           complexity -> O(V * E)
     */ 
     // this method iterates until there are no more shapes to visit -> O(V)
-    public void update() {
+    public void update(boolean test) {
         // here we generate a random index to choose the next shape to be visited from the partialQueue
         int randomIndex = random.nextInt(Math.min(partialQueue.size(), sides));
 
         Shape currentShape = partialQueue.remove(randomIndex);
-        currentShape.setExplored(Explored.FULLLY);
+        currentShape.setExplored(Explored.FULLY);
         
         // gathering information about the neighbors to the currentShape to choose the right way to proceed
         for (Shape neighbor : currentShape.getNeighbors()) {
@@ -62,6 +62,7 @@ public class LabyrinthAlgorithm {
             currentShape.connectNeighbor(connectedNeighbor);
         }
 
+        if (test) return;
         // draw to the buffer the currentShape and his neighbors
         currentShape.draw(buffer.getGraphics());
         for (Shape neighbor : currentShape.getNeighbors())

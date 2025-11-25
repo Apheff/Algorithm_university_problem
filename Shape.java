@@ -26,7 +26,7 @@ enum Type {
 enum Explored { 
     NEVER(Color.decode("#1A2A4F")),
     PARTIALLY(Color.decode("#F7A5A5")),
-    FULLLY(Color.decode("#FFF2EF"));
+    FULLY(Color.decode("#FFF2EF"));
 
     private Color color;
 
@@ -60,7 +60,7 @@ abstract class Shape {
     // ====================== Boolean Methods ====================== //
     // Checks if the node is not explored, partially explored or fully explored
     public boolean isFullyExplored() {
-        return this.explored == Explored.FULLLY;
+        return this.explored == Explored.FULLY;
     }
     
     public boolean isNeverExplored() {
